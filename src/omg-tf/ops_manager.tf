@@ -6,7 +6,7 @@ resource "google_compute_firewall" "ops-manager-external" {
 
   allow {
     protocol = "tcp"
-    ports    = ["443", "80"]
+    ports    = ["443", "80", "22"]
   }
 
   source_ranges = ["0.0.0.0/0"]
@@ -81,6 +81,11 @@ resource "google_compute_instance" "ops-manager-external" {
     }
   }
 
+  service_account {
+    email = "${google_service_account.ops_manager.email}"
+    scopes = ["cloud-platform"]
+  }
+
   metadata = {
     ssh-keys               = "${format("ubuntu:%s", var.ssh_public_key)}"
     block-project-ssh-keys = "TRUE"
@@ -108,8 +113,78 @@ resource "google_service_account_key" "ops_manager" {
   service_account_id = "${google_service_account.ops_manager.id}"
 }
 
+resource "google_project_iam_custom_role" "opsman_role" {
+  role_id     = "opsman_role"
+  title       = "opsman"
+  description = "Ops Manager Role"
+  permissions = [
+    "compute.addresses.get",
+    "compute.addresses.list",
+    "compute.backendServices.get",
+    "compute.backendServices.list",
+    "compute.diskTypes.get",
+    "compute.disks.delete",
+    "compute.disks.list",
+    "compute.disks.get",
+    "compute.disks.createSnapshot",
+    "compute.snapshots.create",
+    "compute.disks.create",
+    "compute.images.useReadOnly",
+    "compute.globalOperations.get",
+    "compute.images.delete",
+    "compute.images.get",
+    "compute.images.create",
+    "compute.instanceGroups.get",
+    "compute.instanceGroups.list",
+    "compute.instanceGroups.update",
+    "compute.instances.setMetadata",
+    "compute.instances.setLabels",
+    "compute.instances.setTags",
+    "compute.instances.reset",
+    "compute.instances.start",
+    "compute.instances.list",
+    "compute.instances.get",
+    "compute.instances.delete",
+    "compute.instances.create",
+    "compute.subnetworks.use",
+    "compute.subnetworks.useExternalIp",
+    "compute.instances.detachDisk",
+    "compute.instances.attachDisk",
+    "compute.disks.use",
+    "compute.instances.deleteAccessConfig",
+    "compute.instances.addAccessConfig",
+    "compute.addresses.use",
+    "compute.machineTypes.get",
+    "compute.regionOperations.get",
+    "compute.zoneOperations.get",
+    "compute.networks.get",
+    "compute.subnetworks.get",
+    "compute.snapshots.delete",
+    "compute.snapshots.get",
+    "compute.targetPools.list",
+    "compute.targetPools.get",
+    "compute.targetPools.addInstance",
+    "compute.targetPools.removeInstance",
+    "compute.instances.use",
+    "storage.buckets.create",
+    "storage.objects.create",
+    "resourcemanager.projects.get",
+    "compute.zones.list",
+    "compute.subnetworks.get",
+    "compute.subnetworks.list",
+    "compute.instances.setServiceAccount"
+  ]
+}
+
 resource "google_project_iam_member" "ops_manager" {
   project = "${var.project}"
-  role    = "roles/owner"
+  # role    = "roles/${google_project_iam_custom_role.opsman_role.role_id}"
+  role    = "projects/ps-sding/roles/opsman_role"
+  member  = "serviceAccount:${google_service_account.ops_manager.email}"
+}
+
+resource "google_project_iam_member" "service_account_user" {
+  project = "${var.project}"
+  role    = "roles/iam.serviceAccountUser"
   member  = "serviceAccount:${google_service_account.ops_manager.email}"
 }

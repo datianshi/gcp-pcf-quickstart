@@ -23,8 +23,6 @@ import (
 	"omg-cli/omg/tiles"
 	"omg-cli/omg/tiles/ert"
 	"omg-cli/omg/tiles/gcp_director"
-	"omg-cli/omg/tiles/service_broker"
-	"omg-cli/omg/tiles/stackdriver_nozzle"
 
 	"fmt"
 
@@ -65,8 +63,8 @@ func Configure(logger *log.Logger, app *kingpin.Application) {
 	selectedTiles = []tiles.TileInstaller{
 		&gcp_director.Tile{},
 		&ert.Tile{},
-		&stackdriver_nozzle.Tile{Logger: logger},
-		&service_broker.Tile{},
+		// &stackdriver_nozzle.Tile{Logger: logger},
+		// &service_broker.Tile{},
 		// TODO: enable conditionally
 		//&healthwatch.Tile{},
 	}

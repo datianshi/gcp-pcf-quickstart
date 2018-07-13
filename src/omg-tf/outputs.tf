@@ -204,6 +204,11 @@ output "ops_manager_service_account_key_base64" {
   sensitive = true
 }
 
+output "ops_manager_service_account_email" {
+  value     = "${google_service_account.ops_manager.email}"
+  sensitive = true
+}
+
 output "service_broker_db_ip" {
   value = "${google_sql_database_instance.service_broker.ip_address.0.ip_address}"
 }

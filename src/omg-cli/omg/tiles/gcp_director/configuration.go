@@ -49,7 +49,7 @@ func buildNetwork(cfg *config.Config, name, cidrRange, gateway string, serviceNe
 	upperIp[3] = 20
 
 	return commands.NetworkConfiguration{
-		Name:           name,
+		Name: name,
 		Subnets: []commands.Subnet{
 			{
 				IAASIdentifier:    fmt.Sprintf("%s/%s/%s", cfg.NetworkName, name, cfg.Region),
@@ -128,9 +128,9 @@ func resources(envConfig *config.EnvConfig) commands.ResourceConfiguration {
 
 func gcp(cfg *config.Config) commands.GCPIaaSConfiguration {
 	return commands.GCPIaaSConfiguration{
-		Project:              cfg.ProjectName,
-		DefaultDeploymentTag: cfg.DeploymentTargetTag,
-		AuthJSON:             cfg.OpsManagerServiceAccountKey,
+		Project:                 cfg.ProjectName,
+		DefaultDeploymentTag:    cfg.DeploymentTargetTag,
+		AssociateServiceAccount: cfg.OpsManagerServiceAccountEmail,
 	}
 }
 

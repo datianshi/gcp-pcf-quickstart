@@ -77,8 +77,9 @@ type TerraformConfigSchema struct {
 	DopplerDomain     string `json:"doppler_domain"`
 	LoggregatorDomain string `json:"loggregator_domain"`
 
-	SslCertificate string `json:"ssl_cert"`
-	SslPrivateKey  string `json:"ssl_cert_private_key"`
+	SslCertificate                string `json:"ssl_cert"`
+	SslPrivateKey                 string `json:"ssl_cert_private_key"`
+	OpsManagerServiceAccountEmail string `json:"ops_manager_service_account_email"`
 
 	StackdriverNozzleServiceAccountKey string
 
