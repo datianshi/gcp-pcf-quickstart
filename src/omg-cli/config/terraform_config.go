@@ -65,11 +65,13 @@ type TerraformConfigSchema struct {
 	TcpTargetPoolName      string `json:"tcp_router_pool"`
 	TcpPortRange           string `json:"tcp_port_range"`
 
-	BuildpacksBucket string `json:"buildpacks_bucket"`
-	DropletsBucket   string `json:"droplets_bucket"`
-	PackagesBucket   string `json:"packages_bucket"`
-	ResourcesBucket  string `json:"resources_bucket"`
-	DirectorBucket   string `json:"director_blobstore_bucket"`
+	CloudStorageServiceAccountKey   string
+	CloudStorageServiceAccountEmail string `json:"cloud_storage_service_account_email"`
+	BuildpacksBucket                string `json:"buildpacks_bucket"`
+	DropletsBucket                  string `json:"droplets_bucket"`
+	PackagesBucket                  string `json:"packages_bucket"`
+	ResourcesBucket                 string `json:"resources_bucket"`
+	DirectorBucket                  string `json:"director_blobstore_bucket"`
 
 	DnsSuffix         string `json:"dns_suffix"`
 	AppsDomain        string `json:"apps_domain"`
@@ -147,6 +149,7 @@ func fromTerraform(filename string) (*Config, error) {
 	hydratedCfg.OpsManagerServiceAccountKey = decode(flattened["ops_manager_service_account_key_base64"])
 	hydratedCfg.ServiceBrokerServiceAccountKey = decode(flattened["service_broker_service_account_key_base64"])
 	hydratedCfg.StackdriverNozzleServiceAccountKey = decode(flattened["stackdriver_service_account_key_base64"])
+	hydratedCfg.CloudStorageServiceAccountKey = decode(flattened["cloud_storage_service_account_key_base64"])
 
 	hydratedCfg.OpsManager.Username = flattened["ops_manager_username"]
 	hydratedCfg.OpsManager.Password = flattened["ops_manager_password"]

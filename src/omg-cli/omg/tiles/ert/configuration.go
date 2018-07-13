@@ -75,6 +75,15 @@ type Properties struct {
 	ErtDbSilkUsername                tiles.Value       `json:".properties.system_database.external.silk_username"`
 	ErtDbSilkPassword                tiles.SecretValue `json:".properties.system_database.external.silk_password"`
 
+	ErtSystemBlobstore              tiles.Value `json:".properties.system_blobstore"`
+	ErtGCSBuildpacksBucket          tiles.Value `json:".properties.system_blobstore.external_gcs_service_account.buildpacks_bucket"`
+	ErtGCSResourcesBucket           tiles.Value `json:".properties.system_blobstore.external_gcs_service_account.resources_bucket"`
+	ErtGCSPackagesBucket            tiles.Value `json:".properties.system_blobstore.external_gcs_service_account.packages_bucket"`
+	ErtGCSDropletsBucket            tiles.Value `json:".properties.system_blobstore.external_gcs_service_account.droplets_bucket"`
+	ErtGCSBucketProjectID           tiles.Value `json:".properties.system_blobstore.external_gcs_service_account.project_id"`
+	ErtGCSBucketServiceAccountEmail tiles.Value `json:".properties.system_blobstore.external_gcs_service_account.service_account_email"`
+	ErtGCSBucketServiceAccountKey   tiles.Value `json:".properties.system_blobstore.external_gcs_service_account.service_account_json_key"`
+
 	// MySQL
 	MySqlMonitorRecipientEmail tiles.Value `json:".mysql_monitor.recipient_email"`
 }
@@ -186,6 +195,15 @@ func (*Tile) Configure(envConfig *config.EnvConfig, cfg *config.Config, om *ops_
 		ErtDbRoutingPassword:             tiles.SecretValue{tiles.Secret{cfg.ERTSqlPassword}},
 		ErtDbSilkUsername:                tiles.Value{cfg.ERTSqlUsername},
 		ErtDbSilkPassword:                tiles.SecretValue{tiles.Secret{cfg.ERTSqlPassword}},
+
+		ErtSystemBlobstore:              tiles.Value{"external_gcs_service_account"},
+		ErtGCSBuildpacksBucket:          tiles.Value{cfg.BuildpacksBucket},
+		ErtGCSResourcesBucket:           tiles.Value{cfg.ResourcesBucket},
+		ErtGCSPackagesBucket:            tiles.Value{cfg.PackagesBucket},
+		ErtGCSDropletsBucket:            tiles.Value{cfg.DropletsBucket},
+		ErtGCSBucketProjectID:           tiles.Value{cfg.ProjectName},
+		ErtGCSBucketServiceAccountEmail: tiles.Value{cfg.CloudStorageServiceAccountEmail},
+		ErtGCSBucketServiceAccountKey:   tiles.Value{cfg.CloudStorageServiceAccountKey},
 
 		MySqlMonitorRecipientEmail: tiles.Value{"admin@example.org"},
 	}

@@ -94,6 +94,7 @@ type DirectorConfiguration struct {
 	HMEmailPlugin             HMEmailPlugin           `url:"director_configuration[hm_emailer_options],omitempty" json:"hm_emailer_options,omitempty"`
 	BlobStoreType             string                  `url:"director_configuration[blobstore_type],omitempty" json:"blobstore_type"`
 	S3BlobstoreOptions        S3BlobstoreOptions      `url:"director_configuration[s3_blobstore_options],omitempty" json:"s3_blobstore_options,omitempty"`
+	GCSBlobstoreOptions       GCSBlobstoreOptions     `url:"director_configuration[gcs_blobstore_options],omitempty" json:"gcs_blobstore_options,omitempty"`
 	DatabaseType              string                  `url:"director_configuration[database_type],omitempty" json:"database_type"`
 	ExternalDatabaseOptions   ExternalDatabaseOptions `url:"director_configuration[external_database_options],omitempty" json:"external_database_options,omitempty"`
 	MaxThreads                *int                    `url:"director_configuration[max_threads],omitempty" json:"max_threads"`
@@ -192,6 +193,12 @@ type S3BlobstoreOptions struct {
 	SecretKey        string `url:"secret_key,omitempty" json:"secret_key"`
 	SignatureVersion string `url:"signature_version,omitempty" json:"signature_version"`
 	Region           string `url:"region,omitempty" json:"region"`
+}
+
+type GCSBlobstoreOptions struct {
+	BucketName        string `url:"bucket_name,omitempty" json:"bucket_name"`
+	ServiceAccountKey string `url:"service_account_key,omitempty" json:"service_account_key"`
+	StorageClass      string `url:"storage_class,omitempty" json:"storage_class"`
 }
 
 type ExternalDatabaseOptions struct {

@@ -194,6 +194,16 @@ output "stackdriver_service_account_key_base64" {
   sensitive = true
 }
 
+output "cloud_storage_service_account_key_base64" {
+  value     = "${google_service_account_key.cloud_storage.private_key}"
+  sensitive = true
+}
+
+output "cloud_storage_service_account_email" {
+  value     = "${google_service_account.cloud_storage.email}"
+  sensitive = true
+}
+
 output "service_broker_service_account_key_base64" {
   value     = "${google_service_account_key.service_broker.private_key}"
   sensitive = true
