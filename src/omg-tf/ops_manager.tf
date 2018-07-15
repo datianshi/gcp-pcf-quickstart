@@ -172,7 +172,9 @@ resource "google_project_iam_custom_role" "opsman_role" {
     "compute.zones.list",
     "compute.subnetworks.get",
     "compute.subnetworks.list",
-    "compute.instances.setServiceAccount"
+    "compute.instances.setServiceAccount",
+    "compute.regionBackendServices.get",
+    "compute.regionBackendServices.list"
   ]
 }
 
